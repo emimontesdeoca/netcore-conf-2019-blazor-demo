@@ -1,0 +1,50 @@
+﻿@using BlazorNetCoreConf.Data.Entities
+@using BlazorNetCoreConf.Services
+
+
+<div class="card" style="width: 18rem; margin:10px;">
+    <img class="card-img-top" src="@Movie.Image" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title text-center">@Movie.Title</h5>
+        <p class="card-text text-center">
+            @for (int i = 0; i < Movie.Rating; i++)
+            {
+                <i class="fa fa-star" aria-hidden="true" style="color:darkorange"></i>
+            }
+            (@Movie.Rating/10)
+        </p>
+        <div class="btn-group text-center">
+            <button type="button" @onclick="ChangeLikeStatus" class="btn btn-success" disabled="@(Movie.Liked)">Like <i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+            <button type="button" @onclick="ChangeLikeStatus" class="btn btn-dark" disabled="@(!Movie.Liked)">Dislike <i class="fa fa-thumbs-down" aria-hidden="true"></i></button>
+            <button class="btn btn-danger" @onclick="Delete">Delete</button>
+        </div>
+    </div>
+</div>
+
+@functions{
+    protected async Task Delete()
+    {
+        await Service.Delete(this.Movie);
+        OnUpdate?.Invoke();
+
+    }
+
+    protected async Task ChangeLikeStatus()
+    {
+        this.Movie.Liked = !this.Movie.Liked;
+        await Service.Update(this.Movie);
+        OnUpdate?.Invoke();
+    }
+}
+
+@code {
+    [Parameter]
+    public Movie Movie { get; set; }
+
+    [Parameter]
+    public MovieService Service { get; set; }
+
+    [Parameter]
+    public Action OnUpdate { get; set; }
+
+}

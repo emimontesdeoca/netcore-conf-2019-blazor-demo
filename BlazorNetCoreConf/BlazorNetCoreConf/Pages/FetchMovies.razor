@@ -1,0 +1,67 @@
+﻿@page "/fetchmovies"
+
+@using BlazorNetCoreConf.Data.Entities
+@using BlazorNetCoreConf.Services
+@using BlazorNetCoreConf.Components
+@inject MovieService MovieService
+
+
+<h3>FetchMovies</h3>
+
+<p>This component demonstrates fetching data from a service which consumes from a database.</p>
+
+@if (movies == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @*<div style="display: flex;flex-wrap:wrap">
+            @foreach (var movie in movies)
+            {
+                <div class="card" style="width: 18rem; margin:10px;">
+                    <img class="card-img-top" src="@movie.Image" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">@movie.Title</h5>
+                        <p class="card-text text-center">
+                            @for (int i = 0; i < movie.Rating; i++)
+                            {
+                                <i class="fa fa-star" aria-hidden="true" style="color:darkorange"></i>
+                            }
+                            (@movie.Rating/10)
+                        </p>
+                        <div class="btn-group text-center">
+                            <button type="button" @onclick="(() => ChangeLikeStatus(movie, true))" class="btn btn-success" disabled="@(movie.Liked)">Like <i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+                            <button type="button" @onclick="(() => ChangeLikeStatus(movie, false))" class="btn btn-dark" disabled="@(!movie.Liked)">Dislike <i class="fa fa-thumbs-down" aria-hidden="true"></i></button>
+                            <button class="btn btn-danger" @onclick="(() => Delete(movie))">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>*@
+
+    <div style="display: flex;flex-wrap:wrap">
+        @foreach (var movie in movies)
+        {
+            <Card Movie="@movie" Service="MovieService" OnUpdate="Reload"></Card>
+        }
+    </div>
+}
+
+
+@functions{
+    protected void Reload()
+    {
+        movies = Task.Run(async () => await MovieService.Get()).Result;
+    }
+}
+
+
+@code {
+    List<Movie> movies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        movies = await MovieService.Get();
+    }
+}
