@@ -1,6 +1,6 @@
 using System;
 
-namespace BlazorNetCoreConf.Data
+namespace BlazorNetCoreConf.Core.Entities
 {
     public class WeatherForecast
     {

@@ -1,9 +1,9 @@
-using BlazorNetCoreConf.Data;
+using BlazorNetCoreConf.Core.Entities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlazorNetCoreConf.Services
+namespace BlazorNetCoreConf.Core.Services
 {
     public class WeatherForecastService
     {

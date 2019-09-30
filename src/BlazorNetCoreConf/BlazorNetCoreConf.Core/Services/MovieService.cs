@@ -1,12 +1,13 @@
-﻿using BlazorNetCoreConf.Data;
-using BlazorNetCoreConf.Data.Entities;
+﻿using BlazorNetCoreConf.Core.Data;
+using BlazorNetCoreConf.Core.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorNetCoreConf.Services
+namespace BlazorNetCoreConf.Core.Services
 {
     public class MovieService
     {
@@ -21,7 +22,7 @@ namespace BlazorNetCoreConf.Services
         {
             using (var scope = scopeFactory.CreateScope())
             {
-                var db = scope.ServiceProvider.GetRequiredService<BlazorContext>();
+                var db = scope.ServiceProvider.GetRequiredService<MovieContext>();
                 return Task.FromResult(db.Movies.ToList());
             }
         }
@@ -30,7 +31,7 @@ namespace BlazorNetCoreConf.Services
         {
             using (var scope = scopeFactory.CreateScope())
             {
-                var db = scope.ServiceProvider.GetRequiredService<BlazorContext>();
+                var db = scope.ServiceProvider.GetRequiredService<MovieContext>();
                 db.Movies.Add(movie);
 
                 return Task.FromResult(db.SaveChanges() > 0 ? true : false);
@@ -41,7 +42,7 @@ namespace BlazorNetCoreConf.Services
         {
             using (var scope = scopeFactory.CreateScope())
             {
-                var db = scope.ServiceProvider.GetRequiredService<BlazorContext>();
+                var db = scope.ServiceProvider.GetRequiredService<MovieContext>();
                 db.Remove(movie);
                 return Task.FromResult(db.SaveChanges() > 0 ? true : false);
             }
@@ -51,11 +52,10 @@ namespace BlazorNetCoreConf.Services
         {
             using (var scope = scopeFactory.CreateScope())
             {
-                var db = scope.ServiceProvider.GetRequiredService<BlazorContext>();
+                var db = scope.ServiceProvider.GetRequiredService<MovieContext>();
                 db.Movies.Update(movie);
                 return Task.FromResult(db.SaveChanges() > 0 ? true : false);
             }
         }
-
     }
 }

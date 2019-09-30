@@ -1,0 +1,70 @@
+﻿@page "/fetchmovies"
+
+    @using BlazorNetCoreConf.Core.Services
+    @using BlazorNetCoreConf.Core.Components
+    @inherits FetchMoviesBase
+    @inject MovieService MovieService
+
+
+    <h3>FetchMovies</h3>
+
+    <p>This component demonstrates fetching data from a service which consumes from a database.</p>
+
+    @if (Movies == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div style="display: flex;flex-wrap:wrap">
+            @foreach (var movie in Movies)
+            {
+                <Card Movie="@movie" Service="MovieService" OnUpdate="Reload"></Card>
+            }
+        </div>
+    }
+
+@*@page "/fetchmovies"
+
+@using BlazorNetCoreConf.Core.Entities
+@using BlazorNetCoreConf.Core.Services
+@using BlazorNetCoreConf.Core.Components
+@inject MovieService MovieService
+
+
+<h3>FetchMovies</h3>
+
+<p>This component demonstrates fetching data from a service which consumes from a database.</p>
+
+@if (movies == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+    <div style="display: flex;flex-wrap:wrap">
+        @foreach (var movie in movies)
+        {
+            <Card Movie="@movie" Service="MovieService" OnUpdate="Reload"></Card>
+        }
+    </div>
+}
+
+
+@functions{
+    protected void Reload()
+    {
+        movies = Task.Run(async () => await MovieService.Get()).Result;
+    }
+}
+
+
+@code {
+    List<Movie> movies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        movies = await MovieService.Get();
+    }
+}*@

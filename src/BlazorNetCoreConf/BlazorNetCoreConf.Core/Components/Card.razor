@@ -1,5 +1,6 @@
-﻿@using BlazorNetCoreConf.Data.Entities
-@using BlazorNetCoreConf.Services
+﻿@using BlazorNetCoreConf.Core.Entities
+@using BlazorNetCoreConf.Core.Services
+@inherits CardBase
 
 
 <div class="card" style="width: 18rem; margin:10px;">
@@ -20,31 +21,3 @@
         </div>
     </div>
 </div>
-
-@functions{
-    protected async Task Delete()
-    {
-        await Service.Delete(this.Movie);
-        OnUpdate?.Invoke();
-
-    }
-
-    protected async Task ChangeLikeStatus()
-    {
-        this.Movie.Liked = !this.Movie.Liked;
-        await Service.Update(this.Movie);
-        OnUpdate?.Invoke();
-    }
-}
-
-@code {
-    [Parameter]
-    public Movie Movie { get; set; }
-
-    [Parameter]
-    public MovieService Service { get; set; }
-
-    [Parameter]
-    public Action OnUpdate { get; set; }
-
-}

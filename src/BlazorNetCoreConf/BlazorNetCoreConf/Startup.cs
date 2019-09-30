@@ -9,9 +9,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using BlazorNetCoreConf.Data;
+using BlazorNetCoreConf.Core.Entities;
+using BlazorNetCoreConf.Core.Services;
+using BlazorNetCoreConf.Core.Data;
 using Microsoft.EntityFrameworkCore;
-using BlazorNetCoreConf.Services;
 
 namespace BlazorNetCoreConf
 {
@@ -32,7 +33,7 @@ namespace BlazorNetCoreConf
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<MovieService>();
-            services.AddDbContext<BlazorContext>(
+            services.AddDbContext<MovieContext>(
                 options => options.UseSqlServer("Server=.;Database=BlazorNetCoreConfDb;Trusted_Connection=True;MultipleActiveResultSets=true"));
         }
 
